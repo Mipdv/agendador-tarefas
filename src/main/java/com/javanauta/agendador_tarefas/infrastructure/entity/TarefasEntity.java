@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class TarefasEntity {
 
     @Id
-    private String Id;
+    private String id;
     private String nomeTarefa;
     private String descricao;
     private LocalDateTime dataCriacao;
