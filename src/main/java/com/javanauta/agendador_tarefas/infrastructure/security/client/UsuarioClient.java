@@ -1,4 +1,4 @@
-package com.javanauta.agendador_tarefas.infrastructure.client;
+package com.javanauta.agendador_tarefas.infrastructure.security.client;
 
 
 import com.javanauta.agendador_tarefas.business.dto.UsuarioDTO;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "usuario", url= "${usuario.url}")//comunicacao sincrona
 public interface UsuarioClient {
     @GetMapping("/usuario")
-    UsuarioDTO buscarUsuarioPorEmail(@RequestParam("email") String email,
+    UsuarioDTO buscaUsuarioPorEmail(@RequestParam("email") String email,
                                      @RequestHeader("Authorization") String token);
 
 
