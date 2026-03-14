@@ -6,10 +6,12 @@ import com.javanauta.agendador_tarefas.infrastructure.entity.TarefasEntity;
 import com.javanauta.agendador_tarefas.infrastructure.enums.StatusNotificacaoEnum;
 import com.javanauta.agendador_tarefas.infrastructure.repository.TarefasRepository;
 import com.javanauta.agendador_tarefas.infrastructure.security.JwtUtil;
+import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +30,18 @@ public class TarefasService {
         return tarefasConverter.paraTarefasDTO(tarefasRepository.save(entity));
         //uma vez feito o save, necessita da conversão
         //reparar no erro com camelCase
+    }
+
+    public List<TarefasDTO>buscaTarefasAgendadasPorPeriodo(LocalDateTime dataInicial, LocalDateTime dataFinal){
+        return tarefasConverter.paraListaTarefasDTO
+                (tarefasRepository.findByDataEventoBetween
+                        (dataInicial, dataFinal));
+    }
+
+    public List<TarefasDTO> buscaTarefasPorEmail(String token){
+        String email = jwtUtil.extratirEmailToken(token.substring(7));
+        List<TarefasEntity> listaTarefas = tarefasRepository.findByEmailUsuario(email);
+        return tarefasConverter.paraListaTarefasDTO(listaTarefas);
     }
 
 }
