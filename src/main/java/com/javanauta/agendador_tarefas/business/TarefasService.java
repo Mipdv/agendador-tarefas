@@ -8,7 +8,6 @@ import com.javanauta.agendador_tarefas.infrastructure.enums.StatusNotificacaoEnu
 import com.javanauta.agendador_tarefas.infrastructure.exceptions.ResourceNotFoundException;
 import com.javanauta.agendador_tarefas.infrastructure.repository.TarefasRepository;
 import com.javanauta.agendador_tarefas.infrastructure.security.JwtUtil;
-import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -37,8 +36,9 @@ public class TarefasService {
 
     public List<TarefasDTO> buscaTarefasAgendadasPorPeriodo(LocalDateTime dataInicial, LocalDateTime dataFinal) {
         return tarefasConverter.paraListaTarefasDTO
-                (tarefasRepository.findByDataEventoBetween
-                        (dataInicial, dataFinal));
+                (tarefasRepository.findByDataEventoBetweenAndStatusNotificacaoEnum
+                        (dataInicial, dataFinal,
+                                StatusNotificacaoEnum.PENDENTE));
     }
 
     public List<TarefasDTO> buscaTarefasPorEmail(String token) {
